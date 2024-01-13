@@ -3,7 +3,7 @@
 export default function Sub() {
   return (
     <>
-      <h1> 서브페이지입니다. </h1>{' '}
+      <h1> 글 작성. </h1>
     </>
   );
 }
