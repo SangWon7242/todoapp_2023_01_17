@@ -14,13 +14,15 @@ import {
   Drawer,
   List,
   ListItemButton,
+  Tabs,
+  Tab,
 } from '@mui/material';
 import Link from 'next/link';
 import { FaBars } from 'react-icons/fa';
 import theme from './theme';
 
 export default function App() {
-  const [open, setOpen] = React.useState(false);
+  const [tab1CurrentIndex, setTab1CurrentIndex] = React.useState(0);
 
   return (
     <>
@@ -42,18 +44,14 @@ export default function App() {
         </AppBar>
         <Toolbar />
       </ThemeProvider>
-      <Button onClick={() => setOpen(true)}>show drwaer</Button>
-      <Drawer anchor="left" open={open} onClose={() => setOpen(false)}>
-        <List>
-          <ListItemButton>
-            <Link href="/write" legacyBehavior>
-              <a>글 작성</a>
-            </Link>
-          </ListItemButton>
-          <ListItemButton>바나나</ListItemButton>
-          <ListItemButton>옥수수</ListItemButton>
-        </List>
-      </Drawer>
+      <Tabs value={tab1CurrentIndex} onChange={(_, newValue) => setTab1CurrentIndex(newValue)}>
+        <Tab label="Item One" />
+        <Tab label="Item Two" />
+        <Tab label="Item Three" />
+      </Tabs>
+      {tab1CurrentIndex == 0 && <div>내용1</div>}
+      {tab1CurrentIndex == 1 && <div>내용2</div>}
+      {tab1CurrentIndex == 2 && <div>내용3</div>}
     </>
   );
 }
