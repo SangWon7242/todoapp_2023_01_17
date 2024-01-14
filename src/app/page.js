@@ -100,7 +100,9 @@ const App = () => {
                   <Chip label={`번호 : ${todo.id}`} variant="outlined" />
                   <Chip label={`현재날짜 : ${todo.regDate}`} variant="outlined" color="primary" />
                 </div>
-                <span>내용 : {todo.content}</span>
+                <div className="tw-p-10 tw-rounded-[20px] tw-shadow !tw-whitespace-pre-wrap tw-leading-relaxed">
+                  {todo.content}
+                </div>
               </div>
             </li>
           ))}
