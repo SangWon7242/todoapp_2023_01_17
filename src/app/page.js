@@ -11,7 +11,11 @@ import {
   Alert as MuiAlert,
   Backdrop,
   CircularProgress,
+  Drawer,
+  List,
+  ListItemButton,
 } from '@mui/material';
+import Link from 'next/link';
 import { FaBars } from 'react-icons/fa';
 import theme from './theme';
 
@@ -38,13 +42,18 @@ export default function App() {
         </AppBar>
         <Toolbar />
       </ThemeProvider>
-      <Button onClick={() => setOpen(true)}>Show backdrop</Button>
-      <Backdrop
-        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        open={open}
-        onClick={() => setOpen(false)}>
-        <CircularProgress color="inherit" />
-      </Backdrop>
+      <Button onClick={() => setOpen(true)}>show drwaer</Button>
+      <Drawer anchor="left" open={open} onClose={() => setOpen(false)}>
+        <List>
+          <ListItemButton>
+            <Link href="/write" legacyBehavior>
+              <a>글 작성</a>
+            </Link>
+          </ListItemButton>
+          <ListItemButton>바나나</ListItemButton>
+          <ListItemButton>옥수수</ListItemButton>
+        </List>
+      </Drawer>
     </>
   );
 }
