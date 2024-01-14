@@ -3,7 +3,7 @@ import { createTheme } from '@mui/material/styles';
 const theme = createTheme({
   palette: {
     typography: {
-      fontFamily: 'GmarketSansMedium',
+      fontFamily: ['GmarketSansMedium'],
     },
     primary: {
       main: '#48d1cc',

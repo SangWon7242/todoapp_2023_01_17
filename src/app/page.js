@@ -2,7 +2,7 @@
 
 import { ThemeProvider } from '@mui/material/styles';
 import * as React from 'react';
-import { Button, AppBar, Toolbar, CssBaseline } from '@mui/material';
+import { CssBaseline, Button, AppBar, Toolbar, TextField } from '@mui/material';
 import { FaBars } from 'react-icons/fa';
 import theme from './theme';
 import dateToStr from './dateUtil';
@@ -79,12 +79,12 @@ const App = () => {
         </Toolbar>
       </AppBar>
       <Toolbar />
-      <form onSubmit={(e) => onSubmit(e)}>
-        <input type="text" name="title" autoComplete="off" placeholder="할 일을 입력해주세요." />
-        <button type="submit">추가</button>
-        <button type="reset">취소</button>
+      <form onSubmit={(e) => onSubmit(e)} className="tw-flex tw-flex-col tw-p-4 tw-gap-2">
+        <TextField label="할 일을 입력해주세요." variant="outlined" />
+        <Button variant="contained" className="tw-font-bold">
+          추가
+        </Button>
       </form>
-      {todoState.todos.length}
     </>
   );
 };
