@@ -2,7 +2,7 @@
 
 import { ThemeProvider } from '@mui/material/styles';
 import * as React from 'react';
-import { CssBaseline, Button, AppBar, Toolbar, TextField } from '@mui/material';
+import { CssBaseline, Button, AppBar, Toolbar, TextField, Chip } from '@mui/material';
 import { FaBars } from 'react-icons/fa';
 import theme from './theme';
 import dateToStr from './dateUtil';
@@ -19,7 +19,8 @@ const useTodoStatus = () => {
       content: newContent,
       regDate: dateToStr(new Date()),
     };
-    setTodos([...todos, newTodo]);
+
+    setTodos((todos) => [...todos, newTodo]);
   };
 
   const removeTodo = (id) => {
@@ -41,7 +42,12 @@ const useTodoStatus = () => {
 };
 
 const App = () => {
-  const todoState = useTodoStatus(); // 리액트 커스텀훅
+  const todosState = useTodoStatus(); // 리액트 커스텀훅
+
+  // React.useEffect(() => {
+  //     todosState.addTodo('테니스');
+  //     todosState.addTodo('야구');
+  // }, []);
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -56,7 +62,7 @@ const App = () => {
       return;
     }
 
-    todoState.addTodo(form.content.value);
+    todosState.addTodo(form.content.value);
     form.content.value = '';
     form.content.focus();
   };
@@ -87,11 +93,13 @@ const App = () => {
       </form>
       <nav className="tw-mt-3 tw-px-4">
         <ul>
-          {todoState.todos.map((todo) => (
+          {todosState.todos.map((todo) => (
             <li key={todo.id}>
-              <div className="tw-flex tw-flex-col tw-gap-2">
-                <span>번호 : {todo.id}</span>
-                <span>현재날짜 : {todo.regDate}</span>
+              <div className="tw-flex tw-flex-col tw-gap-2 tw-mt-3">
+                <div className="tw-flex tw-gap-x-2 tw-font-bold">
+                  <Chip label={`번호 : ${todo.id}`} variant="outlined" />
+                  <Chip label={`현재날짜 : ${todo.regDate}`} variant="outlined" color="primary" />
+                </div>
                 <span>내용 : {todo.content}</span>
               </div>
             </li>
