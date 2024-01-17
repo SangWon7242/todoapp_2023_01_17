@@ -20,7 +20,7 @@ function useTodosState() {
       regDate: dateToStr(new Date()),
     };
 
-    setTodos((todos) => [...todos, newTodo]);
+    setTodos((todos) => [newTodo, ...todos]);
   };
 
   const modifyTodo = (index, newContent) => {
@@ -47,8 +47,9 @@ function App() {
   const todosState = useTodosState(); // 리액트 커스텀훅
 
   React.useEffect(() => {
-    todosState.addTodo('테니스');
+    todosState.addTodo('테니스\n유산소\n축구\n헬스');
     todosState.addTodo('야구');
+    todosState.addTodo('배구');
   }, []);
 
   const onSubmit = (e) => {
