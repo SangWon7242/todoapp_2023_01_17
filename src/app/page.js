@@ -106,8 +106,13 @@ function App() {
             <li key={todo.id}>
               <div className="tw-flex tw-flex-col tw-gap-2 tw-mt-3">
                 <div className="tw-flex tw-gap-x-2 tw-font-bold">
-                  <Chip label={`번호 : ${todo.id}`} variant="outlined" />
-                  <Chip label={`현재날짜 : ${todo.regDate}`} variant="outlined" color="primary" />
+                  <Chip className="tw-pt-[3px]" label={`번호 : ${todo.id}`} variant="outlined" />
+                  <Chip
+                    className="tw-pt-[3px]"
+                    label={`현재날짜 : ${todo.regDate}`}
+                    variant="outlined"
+                    color="primary"
+                  />
                 </div>
                 <div className="tw-p-10 tw-rounded-[20px] tw-shadow tw-whitespace-pre-wrap tw-leading-relaxed tw-break-words">
                   {todo.content}
