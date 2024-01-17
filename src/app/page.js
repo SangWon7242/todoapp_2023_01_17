@@ -7,7 +7,7 @@ import { FaBars } from 'react-icons/fa';
 import theme from './theme';
 import dateToStr from './dateUtil';
 
-const useTodoStatus = () => {
+function useTodosState() {
   const [todos, setTodos] = React.useState([]);
   const lastTodoIdRef = React.useRef(0);
 
@@ -23,31 +23,33 @@ const useTodoStatus = () => {
     setTodos((todos) => [...todos, newTodo]);
   };
 
-  const removeTodo = (id) => {
-    const newTodos = todos.filter((todo) => todo.id != id);
+  const modifyTodo = (index, newContent) => {
+    const newTodos = todos.map((todo, _index) =>
+      _index != index ? todo : { ...todo, content: newContent },
+    );
     setTodos(newTodos);
   };
 
-  const modifyTodo = (id, content) => {
-    const newTodos = todos.map((todo) => (todo.id != id ? todo : { ...todo, content }));
+  const removeTodo = (index) => {
+    const newTodos = todos.filter((_, _index) => _index != index);
     setTodos(newTodos);
   };
 
   return {
     todos,
     addTodo,
-    removeTodo,
     modifyTodo,
+    removeTodo,
   };
-};
+}
 
-const App = () => {
-  const todosState = useTodoStatus(); // 리액트 커스텀훅
+function App() {
+  const todosState = useTodosState(); // 리액트 커스텀훅
 
-  // React.useEffect(() => {
-  //     todosState.addTodo('테니스');
-  //     todosState.addTodo('야구');
-  // }, []);
+  React.useEffect(() => {
+    todosState.addTodo('테니스');
+    todosState.addTodo('야구');
+  }, []);
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -86,7 +88,14 @@ const App = () => {
       </AppBar>
       <Toolbar />
       <form onSubmit={(e) => onSubmit(e)} className="tw-flex tw-flex-col tw-p-4 tw-gap-2">
-        <TextField name="content" autoComplete="off" label="할 일을 입력해주세요." />
+        <TextField
+          minRows={3}
+          maxRows={10}
+          multiline
+          name="content"
+          autoComplete="off"
+          label="할 일을 입력해주세요."
+        />
         <Button variant="contained" className="tw-font-bold" type="submit">
           추가
         </Button>
@@ -100,7 +109,7 @@ const App = () => {
                   <Chip label={`번호 : ${todo.id}`} variant="outlined" />
                   <Chip label={`현재날짜 : ${todo.regDate}`} variant="outlined" color="primary" />
                 </div>
-                <div className="tw-p-10 tw-rounded-[20px] tw-shadow !tw-whitespace-pre-wrap tw-leading-relaxed">
+                <div className="tw-p-10 tw-rounded-[20px] tw-shadow tw-whitespace-pre-wrap tw-leading-relaxed tw-break-words">
                   {todo.content}
                 </div>
               </div>
@@ -110,7 +119,7 @@ const App = () => {
       </nav>
     </>
   );
-};
+}
 
 export default function themeApp() {
   return (
