@@ -2,7 +2,7 @@
 
 import { ThemeProvider } from '@mui/material/styles';
 import * as React from 'react';
-import { CssBaseline, Button, AppBar, Toolbar, TextField, Chip } from '@mui/material';
+import { CssBaseline, Button, AppBar, Toolbar, TextField, Chip, Box } from '@mui/material';
 import { FaBars } from 'react-icons/fa';
 import theme from './theme';
 import dateToStr from './dateUtil';
@@ -116,7 +116,7 @@ function App() {
                   />
                 </div>
                 <div className="tw-p-10 tw-rounded-[20px] tw-shadow tw-whitespace-pre-wrap tw-leading-relaxed tw-break-words">
-                  {todo.content}
+                  <Box sx={{ color: 'primary.main' }}>{todo.content}</Box>
                 </div>
               </div>
             </li>
