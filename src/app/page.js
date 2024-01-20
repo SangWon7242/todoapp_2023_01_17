@@ -1,9 +1,11 @@
 'use client';
 
 import { ThemeProvider } from '@mui/material/styles';
+import classNames from 'classnames';
 import * as React from 'react';
 import { CssBaseline, Button, AppBar, Toolbar, TextField, Chip, Box } from '@mui/material';
 import { FaBars } from 'react-icons/fa';
+import { FaCheck } from 'react-icons/fa6';
 import RootTheme from './theme';
 import dateToStr from './dateUtil';
 
@@ -103,7 +105,7 @@ function App() {
       </form>
       <nav className="tw-mt-3 tw-px-4">
         <ul>
-          {todosState.todos.map((todo) => (
+          {todosState.todos.map((todo, index) => (
             <li key={todo.id}>
               <div className="tw-flex tw-flex-col tw-gap-2 tw-mt-3">
                 <div className="tw-flex tw-gap-x-2 tw-font-bold">
@@ -115,9 +117,19 @@ function App() {
                     color="primary"
                   />
                 </div>
-                <div className="tw-rounded-[20px] tw-shadow tw-flex tw-text-[14px]">
-                  <Button className="tw-flex-shrink-0 tw-rounded-[20px_0_0_20px] hover:tw-bg-red-300 tw-items-start">
-                    <span>체크박스</span>
+                <div className="tw-rounded-[10px] tw-shadow tw-flex tw-text-[14px]">
+                  <Button
+                    className="tw-flex-shrink-0 tw-rounded-[10px_0_0_10px] tw-items-start"
+                    color="inherit">
+                    <FaCheck
+                      className={classNames(
+                        'tw-text-3xl',
+                        {
+                          'tw-text-[--mui-color-primary-main]': index % 2 == 0,
+                        },
+                        { 'tw-text-[#dcdcdc]': index % 2 != 0 },
+                      )}
+                    />
                   </Button>
                   <div className="tw-bg-blue-500 tw-flex-grow hover:tw-text-[--mui-color-primary-main] tw-whitespace-pre-wrap tw-leading-relaxed tw-break-words">
                     {todo.content}
