@@ -115,8 +115,10 @@ function App() {
                     color="primary"
                   />
                 </div>
-                <div className="tw-p-10 tw-rounded-[20px] tw-shadow tw-flex">
-                  <div className="tw-bg-red-500 tw-w-[150px] tw-flex-shrink-0">전</div>
+                <div className="tw-rounded-[20px] tw-shadow tw-flex tw-text-[14px]">
+                  <Button className="tw-flex-shrink-0 tw-rounded-[20px_0_0_20px] hover:tw-bg-red-300 tw-items-start">
+                    <span>체크박스</span>
+                  </Button>
                   <div className="tw-bg-blue-500 tw-flex-grow hover:tw-text-[--mui-color-primary-main] tw-whitespace-pre-wrap tw-leading-relaxed tw-break-words">
                     {todo.content}
                   </div>
