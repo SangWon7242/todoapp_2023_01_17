@@ -2,12 +2,12 @@
 
 import { ThemeProvider } from '@mui/material/styles';
 import * as React from 'react';
-import { CssBaseline, Button, AppBar, Toolbar, TextField, Chip } from '@mui/material';
+import { CssBaseline, Button, AppBar, Toolbar, TextField, Chip, Box } from '@mui/material';
 import { FaBars } from 'react-icons/fa';
 import theme from './theme';
 import dateToStr from './dateUtil';
 
-const useTodoStatus = () => {
+function useTodosState() {
   const [todos, setTodos] = React.useState([]);
   const lastTodoIdRef = React.useRef(0);
 
@@ -20,34 +20,42 @@ const useTodoStatus = () => {
       regDate: dateToStr(new Date()),
     };
 
-    setTodos((todos) => [...todos, newTodo]);
+    setTodos((todos) => [newTodo, ...todos]);
   };
 
-  const removeTodo = (id) => {
-    const newTodos = todos.filter((todo) => todo.id != id);
+  const modifyTodo = (index, newContent) => {
+    const newTodos = todos.map((todo, _index) =>
+      _index != index ? todo : { ...todo, content: newContent },
+    );
     setTodos(newTodos);
   };
 
-  const modifyTodo = (id, content) => {
-    const newTodos = todos.map((todo) => (todo.id != id ? todo : { ...todo, content }));
+  const removeTodo = (index) => {
+    const newTodos = todos.filter((_, _index) => _index != index);
     setTodos(newTodos);
   };
 
   return {
     todos,
     addTodo,
-    removeTodo,
     modifyTodo,
+    removeTodo,
   };
-};
+}
 
-const App = () => {
-  const todosState = useTodoStatus(); // 리액트 커스텀훅
+function App() {
+  const todosState = useTodosState(); // 리액트 커스텀훅
 
   React.useEffect(() => {
+<<<<<<< HEAD
     todosState.addTodo('테니스');
     todosState.addTodo('야구');
     todosState.addTodo('볼링');
+=======
+    todosState.addTodo('테니스\n유산소\n축구\n헬스');
+    todosState.addTodo('야구');
+    todosState.addTodo('배구');
+>>>>>>> d0ddfb3d4a8976ce94de6a28939eb85134c7a4d2
   }, []);
 
   const onSubmit = (e) => {
@@ -87,7 +95,14 @@ const App = () => {
       </AppBar>
       <Toolbar />
       <form onSubmit={(e) => onSubmit(e)} className="tw-flex tw-flex-col tw-p-4 tw-gap-2">
-        <TextField name="content" autoComplete="off" label="할 일을 입력해주세요." />
+        <TextField
+          minRows={3}
+          maxRows={10}
+          multiline
+          name="content"
+          autoComplete="off"
+          label="할 일을 입력해주세요."
+        />
         <Button variant="contained" className="tw-font-bold" type="submit">
           추가
         </Button>
@@ -98,11 +113,21 @@ const App = () => {
             <li key={todo.id}>
               <div className="tw-flex tw-flex-col tw-gap-2 tw-mt-3">
                 <div className="tw-flex tw-gap-x-2 tw-font-bold">
-                  <Chip label={`번호 : ${todo.id}`} variant="outlined" />
-                  <Chip label={`현재날짜 : ${todo.regDate}`} variant="outlined" color="primary" />
+                  <Chip className="tw-pt-[3px]" label={`번호 : ${todo.id}`} variant="outlined" />
+                  <Chip
+                    className="tw-pt-[3px]"
+                    label={`현재날짜 : ${todo.regDate}`}
+                    variant="outlined"
+                    color="primary"
+                  />
                 </div>
+<<<<<<< HEAD
                 <div className="tw-p-10 tw-rounded-[20px] tw-shadow tw-whitespace-pre-wrap tw-leading-relaxed">
                   {todo.content}
+=======
+                <div className="tw-p-10 tw-rounded-[20px] tw-shadow tw-whitespace-pre-wrap tw-leading-relaxed tw-break-words">
+                  <Box sx={{ color: 'primary.main' }}>{todo.content}</Box>
+>>>>>>> d0ddfb3d4a8976ce94de6a28939eb85134c7a4d2
                 </div>
               </div>
             </li>
@@ -111,7 +136,7 @@ const App = () => {
       </nav>
     </>
   );
-};
+}
 
 export default function themeApp() {
   return (
