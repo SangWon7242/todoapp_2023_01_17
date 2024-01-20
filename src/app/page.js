@@ -4,7 +4,7 @@ import { ThemeProvider } from '@mui/material/styles';
 import * as React from 'react';
 import { CssBaseline, Button, AppBar, Toolbar, TextField, Chip, Box } from '@mui/material';
 import { FaBars } from 'react-icons/fa';
-import theme from './theme';
+import RootTheme from './theme';
 import dateToStr from './dateUtil';
 
 function useTodosState() {
@@ -47,15 +47,9 @@ function App() {
   const todosState = useTodosState(); // 리액트 커스텀훅
 
   React.useEffect(() => {
-<<<<<<< HEAD
-    todosState.addTodo('테니스');
+    todosState.addTodo('테니스\n유산소\n배드민턴');
     todosState.addTodo('야구');
     todosState.addTodo('볼링');
-=======
-    todosState.addTodo('테니스\n유산소\n축구\n헬스');
-    todosState.addTodo('야구');
-    todosState.addTodo('배구');
->>>>>>> d0ddfb3d4a8976ce94de6a28939eb85134c7a4d2
   }, []);
 
   const onSubmit = (e) => {
@@ -121,13 +115,8 @@ function App() {
                     color="primary"
                   />
                 </div>
-<<<<<<< HEAD
-                <div className="tw-p-10 tw-rounded-[20px] tw-shadow tw-whitespace-pre-wrap tw-leading-relaxed">
+                <div className="tw-p-10 tw-rounded-[20px] tw-shadow tw-whitespace-pre-wrap tw-leading-relaxed tw-break-words hover:tw-text-[--mui-color-primary-main]">
                   {todo.content}
-=======
-                <div className="tw-p-10 tw-rounded-[20px] tw-shadow tw-whitespace-pre-wrap tw-leading-relaxed tw-break-words">
-                  <Box sx={{ color: 'primary.main' }}>{todo.content}</Box>
->>>>>>> d0ddfb3d4a8976ce94de6a28939eb85134c7a4d2
                 </div>
               </div>
             </li>
@@ -139,6 +128,8 @@ function App() {
 }
 
 export default function themeApp() {
+  const theme = RootTheme();
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
