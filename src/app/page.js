@@ -44,10 +44,11 @@ const useTodoStatus = () => {
 const App = () => {
   const todosState = useTodoStatus(); // 리액트 커스텀훅
 
-  // React.useEffect(() => {
-  //     todosState.addTodo('테니스');
-  //     todosState.addTodo('야구');
-  // }, []);
+  React.useEffect(() => {
+    todosState.addTodo('테니스');
+    todosState.addTodo('야구');
+    todosState.addTodo('볼링');
+  }, []);
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -100,7 +101,7 @@ const App = () => {
                   <Chip label={`번호 : ${todo.id}`} variant="outlined" />
                   <Chip label={`현재날짜 : ${todo.regDate}`} variant="outlined" color="primary" />
                 </div>
-                <div className="tw-p-10 tw-rounded-[20px] tw-shadow !tw-whitespace-pre-wrap tw-leading-relaxed">
+                <div className="tw-p-10 tw-rounded-[20px] tw-shadow tw-whitespace-pre-wrap tw-leading-relaxed">
                   {todo.content}
                 </div>
               </div>
