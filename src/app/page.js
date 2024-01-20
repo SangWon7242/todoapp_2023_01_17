@@ -115,8 +115,12 @@ function App() {
                     color="primary"
                   />
                 </div>
-                <div className="tw-p-10 tw-rounded-[20px] tw-shadow tw-whitespace-pre-wrap tw-leading-relaxed tw-break-words hover:tw-text-[--mui-color-primary-main]">
-                  {todo.content}
+                <div className="tw-p-10 tw-rounded-[20px] tw-shadow tw-flex">
+                  <div className="tw-bg-red-500 tw-w-[150px] tw-flex-shrink-0">전</div>
+                  <div className="tw-bg-blue-500 tw-flex-grow hover:tw-text-[--mui-color-primary-main] tw-whitespace-pre-wrap tw-leading-relaxed tw-break-words">
+                    {todo.content}
+                  </div>
+                  <div className="tw-bg-green-500 tw-w-[150px] tw-flex-shrink-0">후</div>
                 </div>
               </div>
             </li>
