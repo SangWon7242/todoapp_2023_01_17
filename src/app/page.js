@@ -3,7 +3,7 @@
 import { ThemeProvider } from '@mui/material/styles';
 import classNames from 'classnames';
 import * as React from 'react';
-import { CssBaseline, Button, AppBar, Toolbar, TextField, Chip, Box } from '@mui/material';
+import { CssBaseline, Button, AppBar, Toolbar, TextField, Chip, Box, Drawer } from '@mui/material';
 import { FaBars } from 'react-icons/fa';
 import { FaCheck, FaEllipsisVertical } from 'react-icons/fa6';
 import RootTheme from './theme';
@@ -103,6 +103,12 @@ function App() {
           추가
         </Button>
       </form>
+      <Drawer anchor={'bottom'} open={true} onClose={() => {}}>
+        <div className="tw-p-[30px] tw-flex tw-gap-x-[5px]">
+          <div>수정</div>
+          <div>삭제</div>
+        </div>
+      </Drawer>
       <nav className="tw-mt-3 tw-px-4">
         <ul>
           {todosState.todos.map((todo, index) => (
