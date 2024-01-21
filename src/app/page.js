@@ -9,7 +9,7 @@ import { FaCheck, FaEllipsisVertical } from 'react-icons/fa6';
 import RootTheme from './theme';
 import dateToStr from './dateUtil';
 
-function useTodosState() {
+function useTodosStatus() {
   const [todos, setTodos] = React.useState([]);
   const lastTodoIdRef = React.useRef(0);
 
@@ -126,23 +126,41 @@ function TodoListItem({ todo, index, openDrawer }) {
   );
 }
 
+function useTodoOptionDrawerStatus() {
+  const [todoId, setTodoId] = React.useState(null);
+  const opened = React.useMemo(() => todoId !== null, [todoId]);
+
+  const close = () => setTodoId(null);
+  const open = (id) => setTodoId(id);
+
+  return {
+    todoId,
+    opened,
+    close,
+    open,
+  };
+}
+
 function TodoList({ todosState }) {
-  const [optionDrawerTodoId, setOptionDrawerTodoId] = React.useState(null);
-
-  const drawerOpened = React.useMemo(() => optionDrawerTodoId !== null, [optionDrawerTodoId]);
-
-  const closeDrawer = () => setOptionDrawerTodoId(null);
-  const openDrawer = (id) => setOptionDrawerTodoId(id);
+  const todoOptionDrawerStatus = useTodoOptionDrawerStatus();
 
   return (
     <>
-      <Drawer anchor={'bottom'} open={drawerOpened} onClose={closeDrawer}>
-        <div className="tw-p-[30px]">{optionDrawerTodoId}번 할일에 대한 옵션 드로어</div>
+      <Drawer
+        anchor={'bottom'}
+        open={todoOptionDrawerStatus.opened}
+        onClose={todoOptionDrawerStatus.close}>
+        <div className="tw-p-[30px]">{todoOptionDrawerStatus.todoId}번 할일에 대한 옵션 드로어</div>
       </Drawer>
       <nav className="tw-mt-3 tw-px-4">
         <ul>
           {todosState.todos.map((todo, index) => (
-            <TodoListItem key={todo.id} todo={todo} index={todo} openDrawer={openDrawer} />
+            <TodoListItem
+              key={todo.id}
+              todo={todo}
+              index={todo}
+              openDrawer={todoOptionDrawerStatus.open}
+            />
           ))}
         </ul>
       </nav>
@@ -151,7 +169,7 @@ function TodoList({ todosState }) {
 }
 
 function App() {
-  const todosState = useTodosState();
+  const todosState = useTodosStatus();
 
   React.useEffect(() => {
     todosState.addTodo('테니스\n유산소\n배드민턴');
