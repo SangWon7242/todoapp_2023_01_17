@@ -117,10 +117,8 @@ function App() {
                     color="primary"
                   />
                 </div>
-                <div className="tw-rounded-[10px] tw-shadow tw-flex tw-text-[14px]">
-                  <Button
-                    className="tw-flex-shrink-0 tw-rounded-[10px_0_0_10px] tw-items-start"
-                    color="inherit">
+                <div className="tw-rounded-[10px] tw-shadow tw-flex tw-text-[14px] tw-min-h-[80px]">
+                  <Button className="tw-flex-shrink-0 tw-rounded-[10px_0_0_10px]" color="inherit">
                     <FaCheck
                       className={classNames(
                         'tw-text-3xl',
@@ -131,7 +129,7 @@ function App() {
                       )}
                     />
                   </Button>
-                  <div className="tw-bg-blue-500 tw-flex-grow hover:tw-text-[--mui-color-primary-main] tw-whitespace-pre-wrap tw-leading-relaxed tw-break-words">
+                  <div className="tw-bg-blue-500 tw-flex-grow tw-flex tw-items-center hover:tw-text-[--mui-color-primary-main] tw-whitespace-pre-wrap tw-leading-relaxed tw-break-words tw-py-[5px]">
                     {todo.content}
                   </div>
                   <Button className="tw-flex-shrink-0 tw-rounded-[0_10px_10px_0]" color="inherit">
