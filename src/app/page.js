@@ -129,7 +129,8 @@ function App() {
                       )}
                     />
                   </Button>
-                  <div className="tw-bg-blue-500 tw-flex-grow tw-flex tw-items-center hover:tw-text-[--mui-color-primary-main] tw-whitespace-pre-wrap tw-leading-relaxed tw-break-words tw-py-[5px]">
+                  <div className="tw-bg-[#dcdcdc] tw-w-[2px] tw-h-[60px] tw-self-center"></div>
+                  <div className="tw-flex-grow tw-flex tw-items-center hover:tw-text-[--mui-color-primary-main] tw-whitespace-pre-wrap tw-leading-relaxed tw-break-words tw-p-[5px_10px]">
                     {todo.content}
                   </div>
                   <Button className="tw-flex-shrink-0 tw-rounded-[0_10px_10px_0]" color="inherit">
