@@ -45,15 +45,7 @@ function useTodosState() {
   };
 }
 
-function App() {
-  const todosState = useTodosState(); // 리액트 커스텀훅
-
-  React.useEffect(() => {
-    todosState.addTodo('테니스\n유산소\n배드민턴');
-    todosState.addTodo('야구');
-    todosState.addTodo('볼링');
-  }, []);
-
+function NewTodoForm({ todosState }) {
   const onSubmit = (e) => {
     e.preventDefault();
 
@@ -74,22 +66,6 @@ function App() {
 
   return (
     <>
-      <AppBar position="fixed">
-        <Toolbar>
-          <div className="tw-flex-1">
-            <FaBars className="tw-cursor-pointer" />
-          </div>
-          <div className="logo-box">
-            <a className="tw-font-bold" href="/">
-              HAPPY NOTE
-            </a>
-          </div>
-          <div className="tw-flex-1 tw-flex tw-justify-end">
-            <a href="/write">글작성</a>
-          </div>
-        </Toolbar>
-      </AppBar>
-      <Toolbar />
       <form onSubmit={(e) => onSubmit(e)} className="tw-flex tw-flex-col tw-p-4 tw-gap-2">
         <TextField
           minRows={3}
@@ -103,7 +79,54 @@ function App() {
           추가
         </Button>
       </form>
-      <Drawer anchor={'bottom'} open={true} onClose={() => {}}>
+    </>
+  );
+}
+
+function TodoListItem({ todo, index }) {
+  return (
+    <>
+      <li key={todo.id}>
+        <div className="tw-flex tw-flex-col tw-gap-2 tw-mt-3">
+          <div className="tw-flex tw-gap-x-2 tw-font-bold">
+            <Chip className="tw-pt-[3px]" label={`번호 : ${todo.id}`} variant="outlined" />
+            <Chip
+              className="tw-pt-[3px]"
+              label={`현재날짜 : ${todo.regDate}`}
+              variant="outlined"
+              color="primary"
+            />
+          </div>
+          <div className="tw-rounded-[10px] tw-shadow tw-flex tw-text-[14px] tw-min-h-[80px]">
+            <Button className="tw-flex-shrink-0 tw-rounded-[10px_0_0_10px]" color="inherit">
+              <FaCheck
+                className={classNames(
+                  'tw-text-3xl',
+                  {
+                    'tw-text-[--mui-color-primary-main]': index % 2 == 0,
+                  },
+                  { 'tw-text-[#dcdcdc]': index % 2 != 0 },
+                )}
+              />
+            </Button>
+            <div className="tw-bg-[#dcdcdc] tw-w-[2px] tw-h-[60px] tw-self-center"></div>
+            <div className="tw-flex-grow tw-flex tw-items-center hover:tw-text-[--mui-color-primary-main] tw-whitespace-pre-wrap tw-leading-relaxed tw-break-words tw-p-[5px_10px]">
+              {todo.content}
+            </div>
+            <Button className="tw-flex-shrink-0 tw-rounded-[0_10px_10px_0]" color="inherit">
+              <FaEllipsisVertical className="tw-text-[#dcdcdc] tw-text-2xl" />
+            </Button>
+          </div>
+        </div>
+      </li>
+    </>
+  );
+}
+
+function TodoList({ todosState }) {
+  return (
+    <>
+      <Drawer anchor={'bottom'} open={false} onClose={() => {}}>
         <div className="tw-p-[30px] tw-flex tw-gap-x-[5px]">
           <div>수정</div>
           <div>삭제</div>
@@ -112,42 +135,41 @@ function App() {
       <nav className="tw-mt-3 tw-px-4">
         <ul>
           {todosState.todos.map((todo, index) => (
-            <li key={todo.id}>
-              <div className="tw-flex tw-flex-col tw-gap-2 tw-mt-3">
-                <div className="tw-flex tw-gap-x-2 tw-font-bold">
-                  <Chip className="tw-pt-[3px]" label={`번호 : ${todo.id}`} variant="outlined" />
-                  <Chip
-                    className="tw-pt-[3px]"
-                    label={`현재날짜 : ${todo.regDate}`}
-                    variant="outlined"
-                    color="primary"
-                  />
-                </div>
-                <div className="tw-rounded-[10px] tw-shadow tw-flex tw-text-[14px] tw-min-h-[80px]">
-                  <Button className="tw-flex-shrink-0 tw-rounded-[10px_0_0_10px]" color="inherit">
-                    <FaCheck
-                      className={classNames(
-                        'tw-text-3xl',
-                        {
-                          'tw-text-[--mui-color-primary-main]': index % 2 == 0,
-                        },
-                        { 'tw-text-[#dcdcdc]': index % 2 != 0 },
-                      )}
-                    />
-                  </Button>
-                  <div className="tw-bg-[#dcdcdc] tw-w-[2px] tw-h-[60px] tw-self-center"></div>
-                  <div className="tw-flex-grow tw-flex tw-items-center hover:tw-text-[--mui-color-primary-main] tw-whitespace-pre-wrap tw-leading-relaxed tw-break-words tw-p-[5px_10px]">
-                    {todo.content}
-                  </div>
-                  <Button className="tw-flex-shrink-0 tw-rounded-[0_10px_10px_0]" color="inherit">
-                    <FaEllipsisVertical className="tw-text-[#dcdcdc] tw-text-2xl" />
-                  </Button>
-                </div>
-              </div>
-            </li>
+            <TodoListItem key={todo.id} todo={todo} index={todo} />
           ))}
         </ul>
       </nav>
+    </>
+  );
+}
+
+function App() {
+  const todosState = useTodosState();
+
+  React.useEffect(() => {
+    todosState.addTodo('테니스\n유산소\n배드민턴');
+    todosState.addTodo('야구');
+    todosState.addTodo('볼링');
+  }, []);
+
+  return (
+    <>
+      <AppBar position="fixed">
+        <Toolbar>
+          <div className="tw-flex-1">
+            <FaBars className="tw-cursor-pointer" />
+          </div>
+          <div className="logo-box">
+            <a className="tw-font-bold" href="/">
+              HAPPY NOTE
+            </a>
+          </div>
+          <div className="tw-flex-1"></div>
+        </Toolbar>
+      </AppBar>
+      <Toolbar />
+      <NewTodoForm todosState={todosState} />
+      <TodoList todosState={todosState} />
     </>
   );
 }
