@@ -83,7 +83,7 @@ function NewTodoForm({ todosState }) {
   );
 }
 
-function TodoListItem({ todo, index }) {
+function TodoListItem({ todo, index, setOptionDrawerTodoId }) {
   return (
     <>
       <li key={todo.id}>
@@ -113,7 +113,10 @@ function TodoListItem({ todo, index }) {
             <div className="tw-flex-grow tw-flex tw-items-center hover:tw-text-[--mui-color-primary-main] tw-whitespace-pre-wrap tw-leading-relaxed tw-break-words tw-p-[5px_10px]">
               {todo.content}
             </div>
-            <Button className="tw-flex-shrink-0 tw-rounded-[0_10px_10px_0]" color="inherit">
+            <Button
+              onClick={() => setOptionDrawerTodoId(todo.id)}
+              className="tw-flex-shrink-0 tw-rounded-[0_10px_10px_0]"
+              color="inherit">
               <FaEllipsisVertical className="tw-text-[#dcdcdc] tw-text-2xl" />
             </Button>
           </div>
@@ -124,18 +127,27 @@ function TodoListItem({ todo, index }) {
 }
 
 function TodoList({ todosState }) {
+  const [optionDrawerTodoId, setOptionDrawerTodoId] = React.useState(null);
+
   return (
     <>
-      <Drawer anchor={'bottom'} open={false} onClose={() => {}}>
+      <Drawer
+        anchor={'bottom'}
+        open={optionDrawerTodoId !== null}
+        onClose={() => setOptionDrawerTodoId(null)}>
         <div className="tw-p-[30px] tw-flex tw-gap-x-[5px]">
-          <div>수정</div>
-          <div>삭제</div>
+          {optionDrawerTodoId}번 할일에 대한 옵션 드로어
         </div>
       </Drawer>
       <nav className="tw-mt-3 tw-px-4">
         <ul>
           {todosState.todos.map((todo, index) => (
-            <TodoListItem key={todo.id} todo={todo} index={todo} />
+            <TodoListItem
+              key={todo.id}
+              todo={todo}
+              index={todo}
+              setOptionDrawerTodoId={setOptionDrawerTodoId}
+            />
           ))}
         </ul>
       </nav>
