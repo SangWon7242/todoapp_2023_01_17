@@ -83,7 +83,7 @@ function NewTodoForm({ todosState }) {
   );
 }
 
-function TodoListItem({ todo, index, setOptionDrawerTodoId }) {
+function TodoListItem({ todo, index, openDrawer }) {
   return (
     <>
       <li key={todo.id}>
@@ -114,7 +114,7 @@ function TodoListItem({ todo, index, setOptionDrawerTodoId }) {
               {todo.content}
             </div>
             <Button
-              onClick={() => setOptionDrawerTodoId(todo.id)}
+              onClick={() => openDrawer(todo.id)}
               className="tw-flex-shrink-0 tw-rounded-[0_10px_10px_0]"
               color="inherit">
               <FaEllipsisVertical className="tw-text-[#dcdcdc] tw-text-2xl" />
@@ -129,25 +129,20 @@ function TodoListItem({ todo, index, setOptionDrawerTodoId }) {
 function TodoList({ todosState }) {
   const [optionDrawerTodoId, setOptionDrawerTodoId] = React.useState(null);
 
+  const drawerOpened = React.useMemo(() => optionDrawerTodoId !== null, [optionDrawerTodoId]);
+
+  const closeDrawer = () => setOptionDrawerTodoId(null);
+  const openDrawer = (id) => setOptionDrawerTodoId(id);
+
   return (
     <>
-      <Drawer
-        anchor={'bottom'}
-        open={optionDrawerTodoId !== null}
-        onClose={() => setOptionDrawerTodoId(null)}>
-        <div className="tw-p-[30px] tw-flex tw-gap-x-[5px]">
-          {optionDrawerTodoId}번 할일에 대한 옵션 드로어
-        </div>
+      <Drawer anchor={'bottom'} open={drawerOpened} onClose={closeDrawer}>
+        <div className="tw-p-[30px]">{optionDrawerTodoId}번 할일에 대한 옵션 드로어</div>
       </Drawer>
       <nav className="tw-mt-3 tw-px-4">
         <ul>
           {todosState.todos.map((todo, index) => (
-            <TodoListItem
-              key={todo.id}
-              todo={todo}
-              index={todo}
-              setOptionDrawerTodoId={setOptionDrawerTodoId}
-            />
+            <TodoListItem key={todo.id} todo={todo} index={todo} openDrawer={openDrawer} />
           ))}
         </ul>
       </nav>
