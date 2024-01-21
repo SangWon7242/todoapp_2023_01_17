@@ -3,7 +3,20 @@
 import { ThemeProvider } from '@mui/material/styles';
 import classNames from 'classnames';
 import * as React from 'react';
-import { CssBaseline, Button, AppBar, Toolbar, TextField, Chip, Box, Drawer } from '@mui/material';
+import {
+  CssBaseline,
+  Button,
+  AppBar,
+  Toolbar,
+  TextField,
+  Chip,
+  Box,
+  Drawer,
+  SwipeableDrawer,
+  List,
+  ListItem,
+  Divider,
+} from '@mui/material';
 import { FaBars } from 'react-icons/fa';
 import { FaCheck, FaEllipsisVertical } from 'react-icons/fa6';
 import RootTheme from './theme';
@@ -144,9 +157,21 @@ function useTodoOptionDrawerStatus() {
 function TodoOptionDrawer({ status }) {
   return (
     <>
-      <Drawer anchor={'bottom'} open={status.opened} onClose={status.close}>
-        <div className="tw-p-[30px]">{status.todoId}번 할일에 대한 옵션 드로어</div>
-      </Drawer>
+      <SwipeableDrawer
+        anchor={'bottom'}
+        onOpen={() => {}}
+        open={status.opened}
+        onClose={status.close}>
+        <List>
+          <ListItem className="tw-flex tw-gap-2 tw-p-[15px]">
+            <span className="tw-text-[--mui-color-primary-main]">{status.todoId}번</span>
+            <span>할일에 대하여</span>
+          </ListItem>
+          <Divider className="tw-my-[5px]" />
+          <ListItem className="tw-p-[15px_20px]">수정</ListItem>
+          <ListItem className="tw-p-[15px_20px]">삭제</ListItem>
+        </List>
+      </SwipeableDrawer>
     </>
   );
 }
