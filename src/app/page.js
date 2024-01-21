@@ -141,17 +141,22 @@ function useTodoOptionDrawerStatus() {
   };
 }
 
+function TodoOptionDrawer({ status }) {
+  return (
+    <>
+      <Drawer anchor={'bottom'} open={status.opened} onClose={status.close}>
+        <div className="tw-p-[30px]">{status.todoId}번 할일에 대한 옵션 드로어</div>
+      </Drawer>
+    </>
+  );
+}
+
 function TodoList({ todosState }) {
   const todoOptionDrawerStatus = useTodoOptionDrawerStatus();
 
   return (
     <>
-      <Drawer
-        anchor={'bottom'}
-        open={todoOptionDrawerStatus.opened}
-        onClose={todoOptionDrawerStatus.close}>
-        <div className="tw-p-[30px]">{todoOptionDrawerStatus.todoId}번 할일에 대한 옵션 드로어</div>
-      </Drawer>
+      <TodoOptionDrawer status={todoOptionDrawerStatus} />
       <nav className="tw-mt-3 tw-px-4">
         <ul>
           {todosState.todos.map((todo, index) => (
