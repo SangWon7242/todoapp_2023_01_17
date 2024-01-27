@@ -157,6 +157,16 @@ function useTodoOptionDrawerStatue() {
 }
 
 function TodoOptionDrawer({ status }) {
+  const [editTodoModalOpend, setEditTodoModalOpend] = React.useState(false);
+
+  const openEditModal = () => {
+    setEditTodoModalOpend(true);
+  };
+
+  const closeEditModal = () => {
+    setEditTodoModalOpend(false);
+  };
+
   return (
     <>
       <SwipeableDrawer
@@ -170,7 +180,9 @@ function TodoOptionDrawer({ status }) {
             <span>할일에 대하여</span>
             <Divider className="tw-my-[5px]" />
           </ListItem>
-          <ListItemButton className="tw-p-[15px_20px] tw-flex tw-gap-x-2 tw-items-center">
+          <ListItemButton
+            className="tw-p-[15px_20px] tw-flex tw-gap-x-2 tw-items-center"
+            onClick={openEditModal}>
             <span>수정</span>
             <FaPenToSquare className="block tw-mt-[-5px]" />
           </ListItemButton>
@@ -180,7 +192,10 @@ function TodoOptionDrawer({ status }) {
           </ListItemButton>
         </List>
       </SwipeableDrawer>
-      <Modal open={true} onClose={() => {}} className="tw-flex tw-justify-center tw-items-center">
+      <Modal
+        open={editTodoModalOpend}
+        onClose={closeEditModal}
+        className="tw-flex tw-justify-center tw-items-center">
         <div className="tw-bg-white tw-p-10 tw-rounded-[20px]">안녕하세요.</div>
       </Modal>
     </>
