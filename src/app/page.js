@@ -338,20 +338,53 @@ function TodoList({ todosState }) {
   );
 }
 
-function NoticeSnackBar({ open, setOpen }) {
+function NoticeSnackBar({ state }) {
   return (
     <>
-      <Snackbar open={open} autoHideDuration={6000} onClose={() => setOpen(false)}>
-        <Alert variant="filled" severity="success">
-          게시물이 삭제되었습니다.
+      <Snackbar open={state.opened} autoHideDuration={state.autoHideDuration} onClose={state.close}>
+        <Alert variant={state.variant} severity={state.severity}>
+          {state.msg}
         </Alert>
       </Snackbar>
     </>
   );
 }
 
+function useNoticeSnackBarState() {
+  const [opened, setOpened] = React.useState(false);
+  const [autoHideDuration, setAutoHideDuration] = React.useState(null);
+  const [severity, setSeverity] = React.useState(null);
+  const [variant, setVariant] = React.useState(null);
+  const [msg, setMsg] = React.useState(null);
+
+  // console.log(msg);
+
+  const open = (msg, severity = 'success', autoHideDuration = 6000, variant = 'filled') => {
+    setOpened(true);
+    setMsg(msg);
+    setSeverity(severity);
+    setAutoHideDuration(autoHideDuration);
+    setVariant(variant);
+  };
+
+  const close = () => {
+    setOpened(false);
+  };
+
+  return {
+    opened,
+    open,
+    close,
+    autoHideDuration,
+    severity,
+    variant,
+    msg,
+  };
+}
+
 function App() {
   const todosState = useTodosStatus();
+  const noticeSnackBarState = useNoticeSnackBarState();
 
   React.useEffect(() => {
     todosState.addTodo('테니스\n유산소\n배드민턴');
@@ -359,13 +392,9 @@ function App() {
     todosState.addTodo('볼링');
   }, []);
 
-  const [open, setOpen] = React.useState(false);
-
   return (
     <>
-      <NoticeSnackBar open={open} setOpen={setOpen} />
-
-      <AppBar position="fixed" onClick={() => setOpen(true)}>
+      <AppBar position="fixed" onClick={() => noticeSnackBarState.open('하하')}>
         <Toolbar>
           <div className="tw-flex-1">
             <FaBars className="tw-cursor-pointer" />
@@ -377,6 +406,7 @@ function App() {
         </Toolbar>
       </AppBar>
       <Toolbar />
+      <NoticeSnackBar state={noticeSnackBarState} />
       <NewTodoForm todosState={todosState} />
       <TodoList todosState={todosState} />
     </>
