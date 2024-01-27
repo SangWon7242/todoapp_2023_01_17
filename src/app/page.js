@@ -40,6 +40,8 @@ function useTodosStatus() {
     };
 
     setTodos((todos) => [newTodo, ...todos]);
+
+    return id;
   };
 
   const modifyTodo = (index, newContent) => {
@@ -97,7 +99,7 @@ function useTodosStatus() {
   };
 }
 
-function NewTodoForm({ todosState }) {
+function NewTodoForm({ todosState, noticeSnackBarState }) {
   const onSubmit = (e) => {
     e.preventDefault();
 
@@ -111,9 +113,10 @@ function NewTodoForm({ todosState }) {
       return;
     }
 
-    todosState.addTodo(form.content.value);
+    const newTodoId = todosState.addTodo(form.content.value);
     form.content.value = '';
     form.content.focus();
+    noticeSnackBarState.open(`${newTodoId}번 할일이 추가되었습니다.`);
   };
 
   return (
@@ -211,7 +214,7 @@ function useEditTodoModalState() {
   };
 }
 
-function EditTodoModal({ state, todosState, todo, closeDrawer }) {
+function EditTodoModal({ state, todosState, todo, closeDrawer, noticeSnackBarState }) {
   const close = () => {
     state.close();
     closeDrawer();
@@ -232,6 +235,7 @@ function EditTodoModal({ state, todosState, todo, closeDrawer }) {
 
     todosState.modifyTodoById(todo.id, form.content.value);
     close();
+    noticeSnackBarState.open(`${todo.id}번 할일이 수정되었습니다`, 'info');
   };
 
   return (
@@ -263,7 +267,7 @@ function EditTodoModal({ state, todosState, todo, closeDrawer }) {
   );
 }
 
-function TodoOptionDrawer({ state, todosState }) {
+function TodoOptionDrawer({ state, todosState, noticeSnackBarState }) {
   const removeTodo = () => {
     if (confirm(`${state.todoId}번 할일을 삭제하시겠습니까?`) == false) {
       state.close();
@@ -272,6 +276,7 @@ function TodoOptionDrawer({ state, todosState }) {
 
     todosState.removeTodoById(state.todoId);
     state.close();
+    noticeSnackBarState.open(`${state.todoId}번 할일을 삭제되었습니다.`, 'info');
   };
 
   const editTodoModalState = useEditTodoModalState();
@@ -285,6 +290,7 @@ function TodoOptionDrawer({ state, todosState }) {
         todosState={todosState}
         todo={todo}
         closeDrawer={state.close}
+        noticeSnackBarState={noticeSnackBarState}
       />
       <SwipeableDrawer
         anchor={'bottom'}
@@ -315,12 +321,16 @@ function TodoOptionDrawer({ state, todosState }) {
   );
 }
 
-function TodoList({ todosState }) {
+function TodoList({ todosState, noticeSnackBarState }) {
   const todoOptionDrawerState = useTodoOptionDrawerStatue();
 
   return (
     <>
-      <TodoOptionDrawer state={todoOptionDrawerState} todosState={todosState} />
+      <TodoOptionDrawer
+        state={todoOptionDrawerState}
+        todosState={todosState}
+        noticeSnackBarState={noticeSnackBarState}
+      />
       <nav className="tw-mt-3 tw-px-4">
         <ul>
           {todosState.todos.map((todo, index) => (
@@ -407,8 +417,8 @@ function App() {
       </AppBar>
       <Toolbar />
       <NoticeSnackBar state={noticeSnackBarState} />
-      <NewTodoForm todosState={todosState} />
-      <TodoList todosState={todosState} />
+      <NewTodoForm todosState={todosState} noticeSnackBarState={noticeSnackBarState} />
+      <TodoList todosState={todosState} noticeSnackBarState={noticeSnackBarState} />
     </>
   );
 }
