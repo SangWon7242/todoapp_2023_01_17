@@ -16,9 +16,11 @@ import {
   List,
   ListItem,
   Divider,
+  ListItemButton,
+  Modal,
 } from '@mui/material';
 import { FaBars } from 'react-icons/fa';
-import { FaCheck, FaEllipsisVertical } from 'react-icons/fa6';
+import { FaCheck, FaEllipsisVertical, FaTrashCan, FaPenToSquare } from 'react-icons/fa6';
 import RootTheme from './theme';
 import dateToStr from './dateUtil';
 
@@ -139,7 +141,7 @@ function TodoListItem({ todo, index, openDrawer }) {
   );
 }
 
-function useTodoOptionDrawerStatus() {
+function useTodoOptionDrawerStatue() {
   const [todoId, setTodoId] = React.useState(null);
   const opened = React.useMemo(() => todoId !== null, [todoId]);
 
@@ -163,25 +165,34 @@ function TodoOptionDrawer({ status }) {
         open={status.opened}
         onClose={status.close}>
         <List>
-          <ListItem className="tw-flex tw-gap-2 tw-p-[15px]">
+          <ListItem className="tw-flex tw-gap-2">
             <span className="tw-text-[--mui-color-primary-main]">{status.todoId}번</span>
             <span>할일에 대하여</span>
+            <Divider className="tw-my-[5px]" />
           </ListItem>
-          <Divider className="tw-my-[5px]" />
-          <ListItem className="tw-p-[15px_20px]">수정</ListItem>
-          <ListItem className="tw-p-[15px_20px]">삭제</ListItem>
+          <ListItemButton className="tw-p-[15px_20px] tw-flex tw-gap-x-2 tw-items-center">
+            <span>수정</span>
+            <FaPenToSquare className="block tw-mt-[-5px]" />
+          </ListItemButton>
+          <ListItemButton className="tw-pt-[15px] tw-px-[20px] tw-flex tw-gap-x-2 tw-items-center">
+            <span>삭제</span>
+            <FaTrashCan className="block tw-mt-[-5px]" />
+          </ListItemButton>
         </List>
       </SwipeableDrawer>
+      <Modal open={true} onClose={() => {}} className="tw-flex tw-justify-center tw-items-center">
+        <div className="tw-bg-white tw-p-10 tw-rounded-[20px]">안녕하세요.</div>
+      </Modal>
     </>
   );
 }
 
 function TodoList({ todosState }) {
-  const todoOptionDrawerStatus = useTodoOptionDrawerStatus();
+  const todoOptionDrawerState = useTodoOptionDrawerStatue();
 
   return (
     <>
-      <TodoOptionDrawer status={todoOptionDrawerStatus} />
+      <TodoOptionDrawer status={todoOptionDrawerState} />
       <nav className="tw-mt-3 tw-px-4">
         <ul>
           {todosState.todos.map((todo, index) => (
@@ -189,7 +200,7 @@ function TodoList({ todosState }) {
               key={todo.id}
               todo={todo}
               index={todo}
-              openDrawer={todoOptionDrawerStatus.open}
+              openDrawer={todoOptionDrawerState.open}
             />
           ))}
         </ul>
