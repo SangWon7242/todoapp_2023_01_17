@@ -62,6 +62,14 @@ function useTodosStatus() {
     setTodos(newTodos);
   };
 
+  const removeTodoById = (id) => {
+    const index = findTodoIndexById(id);
+
+    if (index != -1) {
+      removeTodo(index);
+    }
+  };
+
   const findTodoIndexById = (id) => {
     return todos.findIndex((todo) => todo.id == id);
   };
@@ -83,6 +91,7 @@ function useTodosStatus() {
     removeTodo,
     findTodoById,
     modifyTodoById,
+    removeTodoById,
   };
 }
 
@@ -200,7 +209,12 @@ function useEditTodoModalState() {
   };
 }
 
-function EditTodoModal({ state, todosState, todo }) {
+function EditTodoModal({ state, todosState, todo, closeDrawer }) {
+  const close = () => {
+    state.close();
+    closeDrawer();
+  };
+
   const onSubmit = (e) => {
     e.preventDefault();
 
@@ -215,7 +229,7 @@ function EditTodoModal({ state, todosState, todo }) {
     }
 
     todosState.modifyTodoById(todo.id, form.content.value);
-    state.close();
+    close();
   };
 
   return (
@@ -248,13 +262,28 @@ function EditTodoModal({ state, todosState, todo }) {
 }
 
 function TodoOptionDrawer({ state, todosState }) {
+  const removeTodo = () => {
+    if (confirm(`${state.todoId}번 할일을 삭제하시겠습니까?`) == false) {
+      state.close();
+      return;
+    }
+
+    todosState.removeTodoById(state.todoId);
+    state.close();
+  };
+
   const editTodoModalState = useEditTodoModalState();
 
   const todo = todosState.findTodoById(state.todoId);
 
   return (
     <>
-      <EditTodoModal state={editTodoModalState} todosState={todosState} todo={todo} />
+      <EditTodoModal
+        state={editTodoModalState}
+        todosState={todosState}
+        todo={todo}
+        closeDrawer={state.close}
+      />
       <SwipeableDrawer
         anchor={'bottom'}
         onOpen={() => {}}
@@ -272,7 +301,9 @@ function TodoOptionDrawer({ state, todosState }) {
             <span>수정</span>
             <FaPenToSquare className="block tw-mt-[-5px]" />
           </ListItemButton>
-          <ListItemButton className="tw-pt-[15px] tw-px-[20px] tw-flex tw-gap-x-2 tw-items-center">
+          <ListItemButton
+            className="tw-pt-[15px] tw-px-[20px] tw-flex tw-gap-x-2 tw-items-center"
+            onClick={removeTodo}>
             <span>삭제</span>
             <FaTrashCan className="block tw-mt-[-5px]" />
           </ListItemButton>
