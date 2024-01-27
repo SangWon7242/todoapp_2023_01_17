@@ -20,7 +20,7 @@ export default function RootTheme() {
   const theme = createTheme({
     palette: {
       typography: {
-        fontFamily: ['GmarketSansMedium'],
+        fontFamily: ["GmarketSansMedium"]
       },
       primary: {
         main: '#48d1cc',

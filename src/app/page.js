@@ -47,6 +47,16 @@ function useTodosStatus() {
     setTodos(newTodos);
   };
 
+  const modifyTodoById = (id, newContent) => {
+    const index = findTodoIndexById(id);
+
+    if (index == -1) {
+      return null;
+    }
+
+    modifyTodo(index, newContent);
+  };
+
   const removeTodo = (index) => {
     const newTodos = todos.filter((_, _index) => _index != index);
     setTodos(newTodos);
@@ -72,6 +82,7 @@ function useTodosStatus() {
     modifyTodo,
     removeTodo,
     findTodoById,
+    modifyTodoById,
   };
 }
 
@@ -202,6 +213,9 @@ function EditTodoModal({ state, todosState, todo }) {
       form.content.focus();
       return;
     }
+
+    todosState.modifyTodoById(todo.id, form.content.value);
+    state.close();
   };
 
   return (
