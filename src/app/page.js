@@ -18,6 +18,8 @@ import {
   Divider,
   ListItemButton,
   Modal,
+  Snackbar,
+  Alert,
 } from '@mui/material';
 import { FaBars } from 'react-icons/fa';
 import { FaCheck, FaEllipsisVertical, FaTrashCan, FaPenToSquare } from 'react-icons/fa6';
@@ -345,17 +347,23 @@ function App() {
     todosState.addTodo('볼링');
   }, []);
 
+  const [open, setOpen] = React.useState(false);
+
   return (
     <>
-      <AppBar position="fixed">
+      <Snackbar open={open} autoHideDuration={6000} onClose={() => setOpen(false)}>
+        <Alert variant="filled" severity="success">
+          게시물이 삭제되었습니다.
+        </Alert>
+      </Snackbar>
+
+      <AppBar position="fixed" onClick={() => setOpen(true)}>
         <Toolbar>
           <div className="tw-flex-1">
             <FaBars className="tw-cursor-pointer" />
           </div>
           <div className="logo-box">
-            <a className="tw-font-bold" href="/">
-              HAPPY NOTE
-            </a>
+            <span className="tw-font-bold">HAPPY NOTE</span>
           </div>
           <div className="tw-flex-1"></div>
         </Toolbar>
