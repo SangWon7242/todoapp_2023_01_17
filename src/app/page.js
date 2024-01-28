@@ -231,7 +231,9 @@ function useEditTodoModalStatus() {
   };
 }
 
-function EditTodoModal({ status, todosStatus, todo, closeDrawer, noticeSnackBarStatus }) {
+function EditTodoModal({ status, todo, closeDrawer, noticeSnackBarStatus }) {
+  const todosStatus = useTodosStatus();
+
   const close = () => {
     status.close();
     closeDrawer();
@@ -306,7 +308,6 @@ function TodoOptionDrawer({ status, noticeSnackBarStatus }) {
     <>
       <EditTodoModal
         status={editTodoModalStatus}
-        todosStatus={todosStatus}
         todo={todo}
         closeDrawer={status.close}
         noticeSnackBarStatus={noticeSnackBarStatus}
