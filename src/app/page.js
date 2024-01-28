@@ -155,7 +155,7 @@ function NewTodoForm({ noticeSnackBarStatus }) {
   );
 }
 
-function TodoListItem({ todo, index, openDrawer, todosStatus }) {
+function TodoListItem({ todo, index, openDrawer }) {
   return (
     <>
       <li key={todo.id}>
@@ -284,7 +284,9 @@ function EditTodoModal({ status, todosStatus, todo, closeDrawer, noticeSnackBarS
   );
 }
 
-function TodoOptionDrawer({ status, todosStatus, noticeSnackBarStatus }) {
+function TodoOptionDrawer({ status, noticeSnackBarStatus }) {
+  const todosStatus = useTodosStatus();
+
   const removeTodo = () => {
     if (confirm(`${status.todoId}번 할일을 삭제하시겠습니까?`) == false) {
       status.close();
@@ -338,14 +340,14 @@ function TodoOptionDrawer({ status, todosStatus, noticeSnackBarStatus }) {
   );
 }
 
-function TodoList({ todosStatus, noticeSnackBarStatus }) {
+function TodoList({ noticeSnackBarStatus }) {
+  const todosStatus = useTodosStatus();
   const todoOptionDrawerStatus = useTodoOptionDrawerStatue();
 
   return (
     <>
       <TodoOptionDrawer
         status={todoOptionDrawerStatus}
-        todosStatus={todosStatus}
         noticeSnackBarStatus={noticeSnackBarStatus}
       />
       <nav className="tw-mt-3 tw-px-4">
@@ -355,7 +357,6 @@ function TodoList({ todosStatus, noticeSnackBarStatus }) {
               key={todo.id}
               todo={todo}
               index={index}
-              todosStatus={todosStatus}
               openDrawer={todoOptionDrawerStatus.open}
             />
           ))}
@@ -436,7 +437,7 @@ function App() {
       <Toolbar />
       <NoticeSnackBar status={noticeSnackBarStatus} />
       <NewTodoForm noticeSnackBarStatus={noticeSnackBarStatus} />
-      <TodoList todosStatus={todosStatus} noticeSnackBarStatus={noticeSnackBarStatus} />
+      <TodoList noticeSnackBarStatus={noticeSnackBarStatus} />
     </>
   );
 }
